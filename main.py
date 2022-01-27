@@ -4,6 +4,7 @@ from pickletools import anyobject
 from fastapi import FastAPI
 from typing import Optional
 from pydantic import BaseModel
+import uvicorn
 
 app = FastAPI()
 
@@ -40,3 +41,7 @@ class Blog(BaseModel):
 @app.post('/blog')
 def create_blog(blog : Blog):
     return {'data' : f"blog is created with title {blog.title}"}
+
+# ini untuk debuging
+# if __name__  == "__main__":
+#     uvicorn.run(app, host = "127.0.0.1", port = 8080)
