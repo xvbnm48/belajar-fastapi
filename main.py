@@ -40,7 +40,7 @@ class Blog(BaseModel):
 
 @app.post('/blog')
 def create_blog(blog : Blog):
-    return {'data' : f"blog is created with title {blog.title}"}
+    return {'data' : f"blog is created with the title {blog.title}"}
 
 # ini untuk debuging
 # if __name__  == "__main__":

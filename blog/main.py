@@ -1,5 +1,5 @@
 
-from fastapi import FastAPI, Depends
+from fastapi import FastAPI, Depends, status
 from pydantic import BaseModel
 from . import schemas, models
 from .database import engine, SessionLocal
@@ -22,7 +22,7 @@ def get_db():
         db.close()
 
 
-@app.post('/blog')
+@app.post('/blog', status_code=status.HTTP_200_OK)
 def create(request: schemas.Blog, db: Session = Depends(get_db)):
     # return {'title': request.title, 'body': request.body}
     new_blog = models.Blog(title=request.title, body=request.body)
