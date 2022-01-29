@@ -1,5 +1,5 @@
 
-from fastapi import FastAPI, Depends, status
+from fastapi import FastAPI, Depends, status, Response, HTTPException
 from pydantic import BaseModel
 from . import schemas, models
 from .database import engine, SessionLocal
@@ -38,7 +38,13 @@ def all(db: Session = Depends(get_db)):
     return blogs
 
 
-@app.get('/blog/{id}')
-def show(id, db: Session = Depends(get_db)):
+@app.get('/blog/{id}', status_code=200)
+def show(id: int,response: Response ,db: Session = Depends(get_db)):
     blog = db.query(models.Blog).filter(models.Blog.id == id).first()
+    if not blog:
+        raise HTTPException(status_code=404, detail=f"Blog with id {id} not found")
+        # response.status_code = status.HTTP_404_NOT_FOUND
+        # return {'details': f'blog with id {id} not found'}
+
+
     return blog
