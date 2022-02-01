@@ -1,5 +1,6 @@
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, ForeignKey
 from .database import Base
+from sqlalchemy.orm import relationship
 
 # create models for database
 
@@ -9,6 +10,10 @@ class Blog(Base):
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String(50))
     body = Column(String)
+    user_id = Column(Integer, ForeignKey('users.id'))
+
+    creator = relationship('User', back_populates='blogs')
+
 
 class User(Base):
     __tablename__ = 'users'
@@ -16,3 +21,5 @@ class User(Base):
     name = Column(String(50))
     email = Column(String(50))
     password = Column(String(50))
+
+    blogs = relationship('Blog', back_populates='creator')
