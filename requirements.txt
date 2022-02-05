@@ -2,3 +2,4 @@ fastApi
 uvicorn
 sqlalchemy
 passlib
+bcrypt
