@@ -3,10 +3,13 @@ from .. import database,schemas,models
 from sqlalchemy.orm import Session
 from ..hashing import Hash
 
-router = APIRouter()
+router = APIRouter(
+    tags=["User"],
+    prefix="/user"
+)
 get_db = database.get_db
 
-@router.post('/user', status_code=status.HTTP_200_OK, tags=['User'])
+@router.post('/', status_code=status.HTTP_200_OK)
 def create(request: schemas.User, db: Session = Depends(get_db)):
     # hashed_password = pwd_context.hash(request.password)
     new_user = models.User(
@@ -17,13 +20,13 @@ def create(request: schemas.User, db: Session = Depends(get_db)):
     return new_user
 
 
-@router.get('/users', status_code=status.HTTP_200_OK, tags=['User'])
-def all(db: Session = Depends(get_db)):
-    users = db.query(models.User).all()
-    return users
+# @router.get('/users', status_code=status.HTTP_200_OK)
+# def all(db: Session = Depends(get_db)):
+#     users = db.query(models.User).all()
+#     return users
 
 
-@router.get('/user/{id}', status_code=200, response_model=schemas.ShowUser, tags=['User'])
+@router.get('/{id}', status_code=200, response_model=schemas.ShowUser)
 def get_user(id: int, db: Session = Depends(get_db)):
     user = db.query(models.User).filter(models.User.id == id).first()
     if not user:
