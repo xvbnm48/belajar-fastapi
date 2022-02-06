@@ -13,3 +13,4 @@ if want to share this source code without env, you can install enviroment by thi
 3. pip install -r requirements.txt 
 
 in the requirements.txt file, you can add your package name.
+Now on progress to make a jwt tokken validation
